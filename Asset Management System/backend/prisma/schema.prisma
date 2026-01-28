@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// User model for authentication and authorization
+model User {
+  id                String   @id @default(cuid())
+  name              String
+  email             String   @unique
+  password          String
+  role              String   @default("VIEWER")
+  status            String   @default("ACTIVE")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("users")
+}
+
+// Asset model for managing assets
+model Asset {
+  id                String              @id @default(cuid())
+  name              String
+  assetTag          String              @unique
+  deviceName        String?
+  serialNumber      String?
+  category          String
+  location          String
+  userAssigned      String?
+  purchaseDate      DateTime
+  purchasePrice     Float
+  status            String              @default("ACTIVE")
+  description       String?
+  ram               String?
+  storage           String?
+  processor         String?
+  maintenanceRecords MaintenanceRecord[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  @@map("assets")
+}
+
+// Maintenance record model for tracking asset maintenance
+model MaintenanceRecord {
+  id                String   @id @default(cuid())
+  assetId           String
+  asset             Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  type              String
+  date              DateTime
+  description       String?
+  cost              Float    @default(0)
+  performedBy       String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([assetId])
+  @@map("maintenance_records")
+}
