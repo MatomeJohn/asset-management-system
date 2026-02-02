@@ -23,6 +23,9 @@ import { useAuth, useAssets, useMaintenance } from '../hooks'
 import { useAuthStore, useAssetStore } from '../store'
 import { formatDate, formatCurrency, searchInArray, capitalize } from '../utils'
 
+// API URL configuration
+const API_URL = import.meta.env.VITE_API_URL || '${API_URL}'
+
 // ============ LOGIN PAGE ============
 
 export const LoginPage: React.FC = () => {
@@ -259,7 +262,7 @@ export const DashboardPage: React.FC = () => {
     const fetchStats = async () => {
       try {
         setLoading(true)
-        const response = await fetch('http://localhost:5000/api/dashboard/stats', {
+        const response = await fetch(`${API_URL}/dashboard/stats`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
@@ -537,8 +540,8 @@ export const AssetsPage: React.FC = () => {
       setSaveError(null)
       
       const url = editingAssetId 
-        ? `http://localhost:5000/api/assets/${editingAssetId}`
-        : 'http://localhost:5000/api/assets'
+        ? `${API_URL}/assets/${editingAssetId}`
+        : `${API_URL}/assets`
       
       const method = editingAssetId ? 'PUT' : 'POST'
       
@@ -643,7 +646,7 @@ export const AssetsPage: React.FC = () => {
     
     // Fetch available users
     try {
-      const response = await fetch('http://localhost:5000/api/users', {
+      const response = await fetch('${API_URL}/users', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -691,7 +694,7 @@ export const AssetsPage: React.FC = () => {
       setAssignLoading(true)
       setAssignError(null)
 
-      const response = await fetch(`http://localhost:5000/api/assets/${selectedAssetForAssign.id}`, {
+      const response = await fetch(`${API_URL}/assets/${selectedAssetForAssign.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -739,7 +742,7 @@ export const AssetsPage: React.FC = () => {
     try {
       setDeleteLoading(true)
 
-      const response = await fetch(`http://localhost:5000/api/assets/${assetToDelete.id}`, {
+      const response = await fetch(`${API_URL}/assets/${assetToDelete.id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -1318,7 +1321,7 @@ export const UsersPage: React.FC = () => {
     if (token && !currentUser) {
       const verifyUser = async () => {
         try {
-          const response = await fetch('http://localhost:5000/api/auth/verify', {
+          const response = await fetch('${API_URL}/auth/verify', {
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -1340,7 +1343,7 @@ export const UsersPage: React.FC = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true)
-      const response = await fetch('http://localhost:5000/api/users', {
+      const response = await fetch('${API_URL}/users', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -1369,7 +1372,7 @@ export const UsersPage: React.FC = () => {
 
     try {
       setSaving(true)
-      const response = await fetch('http://localhost:5000/api/users', {
+      const response = await fetch('${API_URL}/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1425,7 +1428,7 @@ export const UsersPage: React.FC = () => {
         updateData.password = editedUser.password
       }
 
-      const response = await fetch(`http://localhost:5000/api/users/${editingUser.id}`, {
+      const response = await fetch(`${API_URL}/users/${editingUser.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -1465,7 +1468,7 @@ export const UsersPage: React.FC = () => {
 
     try {
       setSaving(true)
-      const response = await fetch(`http://localhost:5000/api/users/${deletingUser.id}`, {
+      const response = await fetch(`${API_URL}/users/${deletingUser.id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -1490,7 +1493,7 @@ export const UsersPage: React.FC = () => {
   const deleteUser = async (user: any) => {
     try {
       setSaving(true)
-      const response = await fetch(`http://localhost:5000/api/users/${user.id}`, {
+      const response = await fetch(`${API_URL}/users/${user.id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -1517,7 +1520,7 @@ export const UsersPage: React.FC = () => {
     setAssetsLoading(true)
 
     try {
-      const response = await fetch('http://localhost:5000/api/assets', {
+      const response = await fetch('${API_URL}/assets', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -1550,7 +1553,7 @@ export const UsersPage: React.FC = () => {
     try {
       setUnassignLoading(assetToUnassign.id)
 
-      const response = await fetch(`http://localhost:5000/api/assets/${assetToUnassign.id}`, {
+      const response = await fetch(`${API_URL}/assets/${assetToUnassign.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -1588,7 +1591,7 @@ export const UsersPage: React.FC = () => {
 
     // Fetch available users (excluding current user)
     try {
-      const response = await fetch('http://localhost:5000/api/users', {
+      const response = await fetch('${API_URL}/users', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -1624,7 +1627,7 @@ export const UsersPage: React.FC = () => {
     try {
       setReassignLoading(true)
 
-      const response = await fetch(`http://localhost:5000/api/assets/${assetToReassign.id}`, {
+      const response = await fetch(`${API_URL}/assets/${assetToReassign.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -2264,7 +2267,7 @@ export const MaintenancePage: React.FC = () => {
   useEffect(() => {
     const fetchAssets = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/assets', {
+        const response = await fetch('${API_URL}/assets', {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
@@ -2316,7 +2319,7 @@ export const MaintenancePage: React.FC = () => {
       const scheduledAssetId = scheduleFormData.assetId
 
       // Update asset status to MAINTENANCE
-      const updateAssetResponse = await fetch(`http://localhost:5000/api/assets/${scheduledAssetId}`, {
+      const updateAssetResponse = await fetch(`${API_URL}/assets/${scheduledAssetId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -2369,7 +2372,7 @@ export const MaintenancePage: React.FC = () => {
 
       // First, update the asset status back to ACTIVE
       const assetId = selectedMaintenance.assetId
-      const updateAssetResponse = await fetch(`http://localhost:5000/api/assets/${assetId}`, {
+      const updateAssetResponse = await fetch(`${API_URL}/assets/${assetId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -2383,7 +2386,7 @@ export const MaintenancePage: React.FC = () => {
       }
 
       // Then delete the maintenance record
-      const response = await fetch(`http://localhost:5000/api/maintenance/${recordId}`, {
+      const response = await fetch(`${API_URL}/maintenance/${recordId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -2706,7 +2709,7 @@ export const ProfilePage: React.FC = () => {
       if (!user && localStorage.getItem('token')) {
         setLoadingUser(true)
         try {
-          const response = await fetch('http://localhost:5000/api/auth/verify', {
+          const response = await fetch('${API_URL}/auth/verify', {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
@@ -2741,7 +2744,7 @@ export const ProfilePage: React.FC = () => {
     
     try {
       setSaving(true)
-      const response = await fetch(`http://localhost:5000/api/users/${user.id}`, {
+      const response = await fetch(`${API_URL}/users/${user.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -2793,7 +2796,7 @@ export const ProfilePage: React.FC = () => {
       setChangingPassword(true)
       setPasswordError(null)
 
-      const response = await fetch(`http://localhost:5000/api/users/${user?.id}/change-password`, {
+      const response = await fetch(`${API_URL}/users/${user?.id}/change-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -3153,7 +3156,7 @@ export const ReportsPage: React.FC = () => {
   const fetchAllMaintenance = useCallback(async () => {
     try {
       setLoadingMaintenance(true)
-      const response = await fetch('http://localhost:5000/api/maintenance', {
+      const response = await fetch('${API_URL}/maintenance', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }

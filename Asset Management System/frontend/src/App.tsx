@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { useAuthStore } from './store'
+import { authAPI } from './services/api'
 import { MdDashboard, MdInventory2, MdPeople, MdBuildCircle, MdSettings, MdPalette, MdHelp, MdLogout, MdMenu, MdClose, MdAnalytics } from 'react-icons/md'
 import {
   LoginPage,
@@ -345,7 +346,8 @@ const AppContent: React.FC = () => {
     const verifyToken = async () => {
       if (token) {
         try {
-          const response = await fetch('http://localhost:5000/api/auth/verify', {
+          const API_URL = import.meta.env.VITE_API_URL || '\'
+          const response = await fetch(`${API_URL}/auth/verify`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
