@@ -1,7 +1,7 @@
 // Frontend API Service Layer
 
 /// <reference types="vite/client" />
-import { Asset, AssetFilters, MaintenanceRecord, MaintenanceInput, DashboardStats } from '../types'
+import { Asset, AssetFilters, MaintenanceRecord, MaintenanceInput, DashboardStats, User } from '../types'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 
@@ -42,16 +42,16 @@ async function apiRequest<T>(
 
 // Authentication APIs
 export const authAPI = {
-  register: (name: string, email: string, password: string) =>
+  register: (name: string, email: string, password: string): Promise<{ user: User; token: string }> =>
     apiRequest('POST', '/auth/register', { name, email, password }),
 
-  login: (email: string, password: string) =>
+  login: (email: string, password: string): Promise<{ user: User; token: string }> =>
     apiRequest('POST', '/auth/login', { email, password }),
 }
 
 // Asset APIs
 export const assetAPI = {
-  getAssets: (page = 1, limit = 10, filters?: AssetFilters) => {
+  getAssets: (page = 1, limit = 10, filters?: AssetFilters): Promise<{ assets: Asset[]; pagination: { page: number; limit: number; total: number; totalPages: number } }> => {
     const params = new URLSearchParams({
       page: page.toString(),
       limit: limit.toString(),
@@ -63,45 +63,45 @@ export const assetAPI = {
     return apiRequest('GET', `/assets?${params}`)
   },
 
-  getAssetById: (id: string) => apiRequest('GET', `/assets/${id}`),
+  getAssetById: (id: string): Promise<Asset> => apiRequest('GET', `/assets/${id}`),
 
-  createAsset: (data: any) => apiRequest('POST', '/assets', data),
+  createAsset: (data: any): Promise<Asset> => apiRequest('POST', '/assets', data),
 
-  updateAsset: (id: string, data: any) => apiRequest('PUT', `/assets/${id}`, data),
+  updateAsset: (id: string, data: any): Promise<Asset> => apiRequest('PUT', `/assets/${id}`, data),
 
-  deleteAsset: (id: string) => apiRequest('DELETE', `/assets/${id}`),
+  deleteAsset: (id: string): Promise<void> => apiRequest('DELETE', `/assets/${id}`),
 }
 
 // User APIs
 export const userAPI = {
-  getUsers: () => apiRequest('GET', '/users'),
+  getUsers: (): Promise<{ users: User[] }> => apiRequest('GET', '/users'),
 
-  getUserById: (id: string) => apiRequest('GET', `/users/${id}`),
+  getUserById: (id: string): Promise<User> => apiRequest('GET', `/users/${id}`),
 
-  updateUserRole: (id: string, role: string) =>
+  updateUserRole: (id: string, role: string): Promise<User> =>
     apiRequest('PUT', `/users/${id}/role`, { role }),
 }
 
 // Maintenance APIs
 export const maintenanceAPI = {
-  getMaintenanceByAsset: (assetId: string) =>
+  getMaintenanceByAsset: (assetId: string): Promise<MaintenanceRecord[]> =>
     apiRequest('GET', `/maintenance/asset/${assetId}`),
 
-  addMaintenance: (assetId: string, data: MaintenanceInput) =>
+  addMaintenance: (assetId: string, data: MaintenanceInput): Promise<MaintenanceRecord> =>
     apiRequest('POST', `/maintenance/${assetId}`, data),
 
-  updateMaintenance: (id: string, data: any) =>
+  updateMaintenance: (id: string, data: any): Promise<MaintenanceRecord> =>
     apiRequest('PUT', `/maintenance/${id}`, data),
 
-  deleteMaintenance: (id: string) => apiRequest('DELETE', `/maintenance/${id}`),
+  deleteMaintenance: (id: string): Promise<void> => apiRequest('DELETE', `/maintenance/${id}`),
 }
 
 // Dashboard APIs
 export const dashboardAPI = {
-  getStats: () => apiRequest<DashboardStats>('GET', '/dashboard/stats'),
+  getStats: (): Promise<DashboardStats> => apiRequest('GET', '/dashboard/stats'),
 }
 
 // Health Check
 export const healthAPI = {
-  check: () => apiRequest('GET', '/health'),
+  check: (): Promise<{ status: string }> => apiRequest('GET', '/health'),
 }
