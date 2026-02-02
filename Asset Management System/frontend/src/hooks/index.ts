@@ -9,7 +9,10 @@ import { User, Asset, MaintenanceRecord } from '../types'
 // useAuth Hook
 export const useAuth = () => {
   const navigate = useNavigate()
-  const { setUser, setToken, setLoading, setError } = useAuthStore()
+  const setUser = useAuthStore((state) => state.setUser)
+  const setToken = useAuthStore((state) => state.setToken)
+  const setLoading = useAuthStore((state) => state.setLoading)
+  const setError = useAuthStore((state) => state.setError)
 
   const login = useCallback(
     async (email: string, password: string) => {
@@ -65,14 +68,12 @@ export const useAuth = () => {
 
 // useAssets Hook
 export const useAssets = () => {
-  const {
-    assets,
-    setAssets,
-    addAsset,
-    updateAsset,
-    removeAsset,
-    setPagination,
-  } = useAssetStore()
+  const assets = useAssetStore((state) => state.assets)
+  const setAssets = useAssetStore((state) => state.setAssets)
+  const addAsset = useAssetStore((state) => state.addAsset)
+  const updateAsset = useAssetStore((state) => state.updateAsset)
+  const removeAsset = useAssetStore((state) => state.removeAsset)
+  const setPagination = useAssetStore((state) => state.setPagination)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -170,7 +171,8 @@ export const useAssets = () => {
 
 // useMaintenance Hook
 export const useMaintenance = () => {
-  const { records, setRecords } = useMaintenanceStore()
+  const records = useMaintenanceStore((state) => state.records)
+  const setRecords = useMaintenanceStore((state) => state.setRecords)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 

@@ -2856,7 +2856,7 @@ export const ProfilePage: React.FC = () => {
               <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
                 user?.status === 'ACTIVE' 
                   ? 'bg-green-400 text-white' 
-                  : user?.status === 'RETIRED'
+                  : user?.status === 'INACTIVE'
                   ? 'bg-orange-400 text-white'
                   : 'bg-gray-400 text-white'
               }`}>
@@ -2925,7 +2925,7 @@ export const ProfilePage: React.FC = () => {
 
               <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-3 rounded-lg border border-green-100 hover:border-green-300 hover:shadow-md transition-all duration-300">
                 <p className="text-xs font-semibold text-green-700 uppercase tracking-wide mb-0.5">Status</p>
-                <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-semibold ${user?.status === 'ACTIVE' ? 'bg-green-200 text-green-800' : user?.status === 'RETIRED' ? 'bg-orange-200 text-orange-800' : 'bg-red-200 text-red-800'}`}>
+                <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-semibold ${user?.status === 'ACTIVE' ? 'bg-green-200 text-green-800' : user?.status === 'INACTIVE' ? 'bg-orange-200 text-orange-800' : 'bg-red-200 text-red-800'}`}>
                   {user?.status ? capitalize(user.status) : 'Active'}
                 </span>
               </div>
@@ -3865,7 +3865,7 @@ export const ReportsPage: React.FC = () => {
                         </div>
                         <div className="flex items-center gap-4">
                           <div className="text-right">
-                            <p className="text-2xl font-bold text-purple-600">{count}</p>
+                            <p className="text-2xl font-bold text-purple-600">{count as number}</p>
                           </div>
                           <div className="w-2 h-12 bg-gradient-to-b from-purple-600 to-purple-400 rounded"></div>
                         </div>
