@@ -7,6 +7,7 @@
     "dev": "ts-node-dev --respawn src/server.ts",
     "build": "tsc --skipLibCheck --noImplicitAny || true",
     "start": "node dist/server.js",
+    "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "ts-node prisma/seed.ts",
     "prisma:studio": "prisma studio",
