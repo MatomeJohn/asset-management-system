@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useState, useCallback } from 'react'
 import { useAuthStore, useAssetStore, useMaintenanceStore } from '../store'
 import { authAPI, assetAPI, maintenanceAPI } from '../services/api'
+import { User, Asset, MaintenanceRecord } from '../types'
 
 // useAuth Hook
 export const useAuth = () => {
@@ -19,8 +20,8 @@ export const useAuth = () => {
         console.log('User data from response:', result.user)
         console.log('User name:', result.user?.name)
         console.log('User full object:', JSON.stringify(result.user))
-        setUser(result.user)
-        setToken(result.token)
+        setUser(result.user as User)
+        setToken(result.token as string)
         setError(null)
       } catch (error: any) {
         setError(error.message)
@@ -40,8 +41,8 @@ export const useAuth = () => {
         console.log('Register response:', result)
         console.log('Register user data:', result.user)
         console.log('Register user name:', result.user?.name)
-        setUser(result.user)
-        setToken(result.token)
+        setUser(result.user as User)
+        setToken(result.token as string)
         setError(null)
       } catch (error: any) {
         setError(error.message)
@@ -81,7 +82,7 @@ export const useAssets = () => {
         setLoading(true)
         const result = await assetAPI.getAssets(page, limit, filters)
         console.log('fetchAssets result:', result)
-        const assetsData = result.assets || result.data
+        const assetsData = (result.assets || result.data) as Asset[]
         console.log('Setting assets:', assetsData)
         setAssets(assetsData)
         if (result.pagination) {
@@ -113,7 +114,7 @@ export const useAssets = () => {
       try {
         setLoading(true)
         const result = await assetAPI.createAsset(data)
-        addAsset(result)
+        addAsset(result as Asset)
         return result
       } catch (err: any) {
         setError(err.message)
@@ -129,7 +130,7 @@ export const useAssets = () => {
       try {
         setLoading(true)
         const result = await assetAPI.updateAsset(id, data)
-        updateAsset(result)
+        updateAsset(result as Asset)
         return result
       } catch (err: any) {
         setError(err.message)
@@ -177,7 +178,7 @@ export const useMaintenance = () => {
     try {
       setLoading(true)
       const result = await maintenanceAPI.getMaintenanceByAsset(assetId)
-      setRecords(result || [])
+      setRecords((result || []) as MaintenanceRecord[])
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -192,7 +193,7 @@ export const useMaintenance = () => {
         const result = await maintenanceAPI.addMaintenance(assetId, data)
         // Fetch updated maintenance records to ensure UI is synchronized
         const updatedRecords = await maintenanceAPI.getMaintenanceByAsset(assetId)
-        setRecords(updatedRecords || [])
+        setRecords((updatedRecords || []) as MaintenanceRecord[])
         return result
       } catch (err: any) {
         setError(err.message)

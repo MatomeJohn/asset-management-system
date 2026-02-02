@@ -29,12 +29,8 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"]
-}
-    "resolveJsonModule": true
+    "allowSyntheticDefaultImports": true,
+    "types": ["node", "vite/client"]
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

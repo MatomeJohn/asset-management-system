@@ -1,0 +1,3 @@
+NjNjZGMwOGEtZjc3Yy00OWIwLThkNzAtYTU1NTI2MzYzZDY0
+
+postgresql://ams_user:UMj3AzsaV7IdtKQoZNGH9K0VC9URizso@dpg-d60dc87gi27c73bv3ecg-a/ams_69yp

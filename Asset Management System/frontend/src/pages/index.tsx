@@ -510,7 +510,7 @@ export const AssetsPage: React.FC = () => {
   useEffect(() => {
     let filtered = assets
     if (searchTerm) {
-      filtered = searchInArray(filtered, searchTerm, ['name', 'assetTag', 'category', 'deviceName', 'serialNumber', 'location', 'userAssigned'])
+      filtered = searchInArray(filtered, searchTerm, ['name', 'assetTag', 'category', 'deviceName', 'serialNumber', 'location', 'userAssigned'] as const)
     }
     if (statusFilter) {
       filtered = filtered.filter((a) => a.status === statusFilter)
@@ -3499,7 +3499,7 @@ export const ReportsPage: React.FC = () => {
               {Object.entries(maintenanceByType).map(([type, count]) => (
                 <div key={type} className="bg-gradient-to-br from-purple-600 to-purple-700 text-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all border border-purple-500">
                   <p className="text-purple-100 text-sm font-semibold uppercase tracking-wide mb-3">{type}</p>
-                  <p className="text-4xl font-bold mb-2">{count}</p>
+                  <p className="text-4xl font-bold mb-2">{count as number}</p>
                   <div className="w-full bg-purple-400 rounded-full h-2">
                     <div 
                       className="bg-white rounded-full h-2 transition-all duration-500"
@@ -3764,6 +3764,7 @@ export const ReportsPage: React.FC = () => {
                     <td className="px-4 py-3 text-gray-700">{asset.location}</td>
                     <td className="px-4 py-3 text-center">
                       <Badge
+                        text={asset.status}
                         variant={
                           asset.status === 'ACTIVE'
                             ? 'success'
@@ -3771,9 +3772,7 @@ export const ReportsPage: React.FC = () => {
                             ? 'warning'
                             : 'danger'
                         }
-                      >
-                        {asset.status}
-                      </Badge>
+                      />
                     </td>
                     <td className="px-4 py-3 text-right font-bold text-green-600">{formatCurrency(asset.purchasePrice)}</td>
                   </tr>
@@ -3806,7 +3805,7 @@ export const ReportsPage: React.FC = () => {
                     .map(([tech, count]) => (
                       <div key={tech} className="flex justify-between items-center p-4 bg-gradient-to-r from-blue-100 to-blue-50 rounded-lg border-l-4 border-blue-600">
                         <span className="font-semibold text-gray-900">{tech}</span>
-                        <span className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold">{count}</span>
+                        <span className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold">{count as number}</span>
                       </div>
                     ))
                 })()}

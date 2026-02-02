@@ -5,7 +5,9 @@ export interface User {
   name: string
   email: string
   role: 'ADMIN' | 'MANAGER' | 'EMPLOYEE'
+  status?: 'ACTIVE' | 'INACTIVE'
   createdAt: string
+  updatedAt?: string
 }
 
 export interface Asset {
@@ -21,6 +23,9 @@ export interface Asset {
   purchasePrice: number
   createdAt: string
   updatedAt: string
+  deviceName?: string
+  assetTag?: string
+  userAssigned?: string | null
 }
 
 export interface AssetFilters {

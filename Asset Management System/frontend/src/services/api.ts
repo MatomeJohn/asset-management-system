@@ -1,5 +1,6 @@
 // Frontend API Service Layer
 
+/// <reference types="vite/client" />
 import { Asset, AssetFilters, MaintenanceRecord, MaintenanceInput, DashboardStats } from '../types'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
