@@ -34,7 +34,6 @@
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }
-    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true
   },
   "include": ["src"],
