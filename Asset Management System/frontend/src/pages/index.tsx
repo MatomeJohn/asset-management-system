@@ -24,7 +24,7 @@ import { useAuthStore, useAssetStore } from '../store'
 import { formatDate, formatCurrency, searchInArray, capitalize } from '../utils'
 
 // API URL configuration
-const API_URL = import.meta.env.VITE_API_URL || '${API_URL}'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 
 // ============ LOGIN PAGE ============
 
