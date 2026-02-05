@@ -83,10 +83,13 @@ export const useAssets = () => {
         setLoading(true)
         const result = await assetAPI.getAssets(page, limit, filters)
         console.log('fetchAssets result:', result)
-        const assetsData = result.assets
+        
+        // Handle both { assets: [...] } and direct array response
+        const assetsData = Array.isArray(result) ? result : (result?.assets || [])
         console.log('Setting assets:', assetsData)
         setAssets(assetsData)
-        if (result.pagination) {
+        
+        if (result?.pagination) {
           setPagination(result.pagination)
         }
       } catch (err: any) {
