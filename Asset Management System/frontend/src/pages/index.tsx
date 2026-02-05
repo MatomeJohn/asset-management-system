@@ -815,7 +815,7 @@ export const AssetsPage: React.FC = () => {
           <Select
             options={[
               { value: '', label: 'All Devices' },
-              ...Array.from(new Set(assets.map((a) => a.deviceName || a.name)))
+              ...Array.from(new Set((assets || []).map((a) => a.deviceName || a.name)))
                 .filter(Boolean)
                 .map((device) => ({ value: device, label: device })),
             ]}
@@ -2436,7 +2436,7 @@ export const MaintenancePage: React.FC = () => {
         <Select
           options={[
             { value: '', label: '🔍 All Assets' },
-            ...assets.map(asset => ({ value: asset.id, label: `${asset.name} (${asset.assetTag})` }))
+            ...(assets || []).map(asset => ({ value: asset.id, label: `${asset.name} (${asset.assetTag})` }))
           ]}
           value={selectedAssetId}
           onChange={(e) => setSelectedAssetId(e.target.value)}
@@ -2540,7 +2540,7 @@ export const MaintenancePage: React.FC = () => {
         <form className="space-y-4">
           <Select
             label="Asset"
-            options={assets.map(asset => ({ value: asset.id, label: `${asset.name} (${asset.assetTag})` }))}
+            options={(assets || []).map(asset => ({ value: asset.id, label: `${asset.name} (${asset.assetTag})` }))}
             value={scheduleFormData.assetId}
             onChange={(e) => setScheduleFormData({ ...scheduleFormData, assetId: e.target.value })}
           />
