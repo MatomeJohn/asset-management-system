@@ -467,7 +467,7 @@ export const DashboardPage: React.FC = () => {
 
 export const AssetsPage: React.FC = () => {
   const navigate = useNavigate()
-  const { assets, loading, error, fetchAssets } = useAssets()
+  const { assets, loading, error, fetchAssets, createAsset, editAsset } = useAssets()
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('')
@@ -538,44 +538,33 @@ export const AssetsPage: React.FC = () => {
     try {
       setSaveLoading(true)
       setSaveError(null)
-      
-      const url = editingAssetId 
-        ? `${API_URL}/assets/${editingAssetId}`
-        : `${API_URL}/assets`
-      
-      const method = editingAssetId ? 'PUT' : 'POST'
-      
-      const response = await fetch(url, {
-        method: method,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({
-          name: formData.deviceName,
-          deviceName: formData.deviceName,
-          serialNumber: formData.serialNumber ? formData.serialNumber : null,
-          category: formData.category,
-          assetTag: formData.assetTag,
-          location: formData.location,
-          userAssigned: formData.userAssigned ? formData.userAssigned : null,
-          purchasePrice: parseFloat(formData.purchasePrice),
-          purchaseDate: new Date(),
-          status: formData.status,
-          description: `${formData.category} - ${formData.deviceName}`,
-          ram: formData.ram || null,
-          storage: formData.storage || null,
-          processor: formData.processor || null,
-        })
-      })
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || 'Failed to save asset')
+      const assetData = {
+        name: formData.deviceName,
+        deviceName: formData.deviceName,
+        serialNumber: formData.serialNumber ? formData.serialNumber : null,
+        category: formData.category,
+        assetTag: formData.assetTag,
+        location: formData.location,
+        userAssigned: formData.userAssigned ? formData.userAssigned : null,
+        purchasePrice: parseFloat(formData.purchasePrice),
+        purchaseDate: new Date(),
+        status: formData.status,
+        description: `${formData.category} - ${formData.deviceName}`,
+        ram: formData.ram || null,
+        storage: formData.storage || null,
+        processor: formData.processor || null,
       }
 
-      const result = await fetchAssets(currentPage)
-      console.log('Assets fetched after save:', result)
+      if (editingAssetId) {
+        await editAsset(editingAssetId, assetData)
+      } else {
+        await createAsset(assetData)
+      }
+
+      // Refetch assets to show the new/updated asset
+      await fetchAssets(1)
+      
       setShowModal(false)
       setEditingAssetId(null)
       setFormData({
