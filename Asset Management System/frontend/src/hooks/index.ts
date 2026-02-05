@@ -84,8 +84,8 @@ export const useAssets = () => {
         const result = await assetAPI.getAssets(page, limit, filters)
         console.log('fetchAssets result:', result)
         
-        // Handle both { assets: [...] } and direct array response
-        const assetsData = Array.isArray(result) ? result : (result?.assets || [])
+        // Handle both { assets: [...] } and { data: [...] } response formats
+        const assetsData = Array.isArray(result) ? result : (result?.assets || result?.data || [])
         console.log('Setting assets:', assetsData)
         setAssets(assetsData)
         

@@ -51,7 +51,7 @@ export const authAPI = {
 
 // Asset APIs
 export const assetAPI = {
-  getAssets: (page = 1, limit = 10, filters?: AssetFilters): Promise<{ assets: Asset[]; pagination: { page: number; limit: number; total: number; totalPages: number } }> => {
+  getAssets: (page = 1, limit = 10, filters?: AssetFilters): Promise<{ data?: Asset[]; assets?: Asset[]; pagination: { page: number; limit: number; total: number; totalPages: number } }> => {
     const params = new URLSearchParams({
       page: page.toString(),
       limit: limit.toString(),
