@@ -511,7 +511,7 @@ export const AssetsPage: React.FC = () => {
   }, [currentPage, fetchAssets])
 
   useEffect(() => {
-    let filtered = assets
+    let filtered = assets || []
     if (searchTerm) {
       filtered = searchInArray(filtered, searchTerm, ['name', 'assetTag', 'category', 'deviceName', 'serialNumber', 'location', 'userAssigned'] as const)
     }
@@ -842,7 +842,7 @@ export const AssetsPage: React.FC = () => {
 
       {loading ? (
         <Spinner message="Loading assets..." />
-      ) : filteredAssets.length === 0 ? (
+      ) : (filteredAssets || []).length === 0 ? (
         <Card>
           <div className="text-center py-12">
             <span className="text-6xl mb-4 block">📦</span>
