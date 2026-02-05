@@ -563,6 +563,7 @@ export const AssetsPage: React.FC = () => {
       }
 
       // Refetch assets to show the new/updated asset
+      setCurrentPage(1)
       await fetchAssets(1)
       
       setShowModal(false)
@@ -635,7 +636,7 @@ export const AssetsPage: React.FC = () => {
     
     // Fetch available users
     try {
-      const response = await fetch('${API_URL}/users', {
+      const response = await fetch(`${API_URL}/users`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -1310,7 +1311,7 @@ export const UsersPage: React.FC = () => {
     if (token && !currentUser) {
       const verifyUser = async () => {
         try {
-          const response = await fetch('${API_URL}/auth/verify', {
+          const response = await fetch(`${API_URL}/auth/verify`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -1332,7 +1333,7 @@ export const UsersPage: React.FC = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true)
-      const response = await fetch('${API_URL}/users', {
+      const response = await fetch(`${API_URL}/users`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -1361,7 +1362,7 @@ export const UsersPage: React.FC = () => {
 
     try {
       setSaving(true)
-      const response = await fetch('${API_URL}/users', {
+      const response = await fetch(`${API_URL}/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1509,7 +1510,7 @@ export const UsersPage: React.FC = () => {
     setAssetsLoading(true)
 
     try {
-      const response = await fetch('${API_URL}/assets', {
+      const response = await fetch(`${API_URL}/assets`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -1580,7 +1581,7 @@ export const UsersPage: React.FC = () => {
 
     // Fetch available users (excluding current user)
     try {
-      const response = await fetch('${API_URL}/users', {
+      const response = await fetch(`${API_URL}/users`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -2256,7 +2257,7 @@ export const MaintenancePage: React.FC = () => {
   useEffect(() => {
     const fetchAssets = async () => {
       try {
-        const response = await fetch('${API_URL}/assets', {
+        const response = await fetch(`${API_URL}/assets`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
@@ -2698,7 +2699,7 @@ export const ProfilePage: React.FC = () => {
       if (!user && localStorage.getItem('token')) {
         setLoadingUser(true)
         try {
-          const response = await fetch('${API_URL}/auth/verify', {
+          const response = await fetch(`${API_URL}/auth/verify`, {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
@@ -3145,7 +3146,7 @@ export const ReportsPage: React.FC = () => {
   const fetchAllMaintenance = useCallback(async () => {
     try {
       setLoadingMaintenance(true)
-      const response = await fetch('${API_URL}/maintenance', {
+      const response = await fetch(`${API_URL}/maintenance`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
